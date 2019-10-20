@@ -19,7 +19,7 @@ type Client struct {
 }
 
 // Put uploads an object to S3
-func (c *Client) Put(key string, body io.ReadSeeker) error {
+func (c Client) Put(key string, body io.ReadSeeker) error {
 	s3Client := s3.New(
 		session.Must(session.NewSession()),
 		aws.NewConfig().
