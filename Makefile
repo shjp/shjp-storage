@@ -1,4 +1,5 @@
 build-functions:
+	./cmd/netlify-function/override-env.sh
 	mkdir -p functions
 	go get ./...
 	go clean -cache

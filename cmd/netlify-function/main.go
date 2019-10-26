@@ -14,10 +14,8 @@ import (
 
 // Config is the config parameters
 type Config struct {
-	S3Region          string
-	S3Bucket          string
-	S3AccessKeyID     string
-	S3SecretAccessKey string
+	S3Region string
+	S3Bucket string
 }
 
 func main() {
