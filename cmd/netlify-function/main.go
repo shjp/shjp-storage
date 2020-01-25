@@ -14,7 +14,8 @@ import (
 )
 
 var (
-	errMethodNotAllowed = errors.New("Only POST method allowed")
+	errReadingConfig    = errors.New("can't read config")
+	errMethodNotAllowed = errors.New("only POST method allowed")
 )
 
 // Config is the config parameters
@@ -38,7 +39,8 @@ func handler(request events.APIGatewayProxyRequest) (*events.APIGatewayProxyResp
 	var config Config
 	err := envconfig.Process("aws", &config)
 	if err != nil {
-		log.Fatal(err.Error())
+		log.Printf("Error reading config: %s\n", err)
+		return formatResponse(http.StatusInternalServerError, "Server error"), errReadingConfig
 	}
 	log.Printf("Config: %#v\n", config)
 
@@ -68,7 +70,7 @@ func formatResponse(statusCode int, body string) *events.APIGatewayProxyResponse
 			"Content-Type":                 "application/json",
 			"Access-Control-Allow-Origin":  "*",
 			"Access-Control-Allow-Headers": "X-Requested-With,Content-Type,Authorization,Auth-Token",
-			"Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,OPTIONS,PING",
+			"Access-Control-Allow-Methods": "POST,OPTIONS",
 		},
 		Body: body,
 	}
