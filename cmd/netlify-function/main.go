@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"errors"
 	"log"
 	"net/http"
@@ -29,6 +30,14 @@ func main() {
 }
 
 func handler(request events.APIGatewayProxyRequest) (*events.APIGatewayProxyResponse, error) {
+	reqBlob, err := json.Marshal(request)
+	if err != nil {
+		log.Println("Marshalling request failed:", err)
+	}
+	log.Println("Request object ---------------------------------------------------")
+	log.Println(string(reqBlob))
+	log.Println("------------------------------------------------------------------")
+
 	if request.HTTPMethod == http.MethodOptions {
 		return formatResponse(http.StatusOK, "OK"), nil
 	}
