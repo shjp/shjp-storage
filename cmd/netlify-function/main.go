@@ -41,12 +41,12 @@ func handler(request events.APIGatewayProxyRequest) (*events.APIGatewayProxyResp
 		Bucket: config.S3Bucket,
 	})
 
-	err = svc.Upload("foofoo", nil)
+	url, err := svc.Upload("foofoo", "barbar", nil)
 	if err != nil {
 		return formatResponse(http.StatusInternalServerError, err.Error()), err
 	}
 
-	return formatResponse(http.StatusOK, "foo"), nil
+	return formatResponse(http.StatusOK, url), nil
 }
 
 func formatResponse(statusCode int, body string) *events.APIGatewayProxyResponse {

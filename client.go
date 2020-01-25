@@ -6,5 +6,5 @@ import (
 
 // Client is the client interacting with external storage system
 type Client interface {
-	Put(string, io.ReadSeeker) error
+	Put(string, string, io.ReadSeeker) (string, error)
 }

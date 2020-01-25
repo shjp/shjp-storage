@@ -15,10 +15,6 @@ func NewService(client Client) Service {
 }
 
 // Upload performs the upload
-func (s *Service) Upload(key string, file io.ReadSeeker) error {
-	err := s.client.Put(key, file)
-
-	// TODO: dispatch message
-
-	return err
+func (s *Service) Upload(folder, key string, file io.ReadSeeker) (string, error) {
+	return s.client.Put(folder, key, file)
 }
