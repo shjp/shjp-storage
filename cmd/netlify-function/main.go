@@ -1,6 +1,7 @@
 package main
 
 import (
+	"errors"
 	"log"
 	"net/http"
 
@@ -10,6 +11,10 @@ import (
 
 	storage "github.com/shjp/shjp-storage"
 	"github.com/shjp/shjp-storage/s3"
+)
+
+var (
+	errMethodNotAllowed = errors.New("Only POST method allowed")
 )
 
 // Config is the config parameters
@@ -23,6 +28,13 @@ func main() {
 }
 
 func handler(request events.APIGatewayProxyRequest) (*events.APIGatewayProxyResponse, error) {
+	if request.HTTPMethod == http.MethodOptions {
+		return formatResponse(http.StatusOK, "OK"), nil
+	}
+	if request.HTTPMethod != http.MethodPost {
+		return formatResponse(http.StatusMethodNotAllowed, "Disallowed HTTP verb"), errMethodNotAllowed
+	}
+
 	var config Config
 	err := envconfig.Process("aws", &config)
 	if err != nil {
