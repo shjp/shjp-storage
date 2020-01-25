@@ -46,7 +46,7 @@ func handler(request events.APIGatewayProxyRequest) (*events.APIGatewayProxyResp
 	}
 
 	var config Config
-	err := envconfig.Process("aws", &config)
+	err = envconfig.Process("aws", &config)
 	if err != nil {
 		log.Printf("Error reading config: %s\n", err)
 		return formatResponse(http.StatusInternalServerError, "Server error"), errReadingConfig
