@@ -76,6 +76,7 @@ func formatResponse(statusCode int, body string) *events.APIGatewayProxyResponse
 	return &events.APIGatewayProxyResponse{
 		StatusCode: statusCode,
 		Headers: map[string]string{
+			"Content-Type":                 "application/json",
 			"Access-Control-Allow-Origin":  "*",
 			"Access-Control-Allow-Methods": "POST,OPTIONS",
 		},
@@ -87,6 +88,7 @@ func formatPreflightResponse() *events.APIGatewayProxyResponse {
 	return &events.APIGatewayProxyResponse{
 		StatusCode: http.StatusNoContent,
 		Headers: map[string]string{
+			"Content-Type":                 "application/json",
 			"Access-Control-Allow-Origin":  "*",
 			"Access-Control-Allow-Methods": "POST",
 		},
