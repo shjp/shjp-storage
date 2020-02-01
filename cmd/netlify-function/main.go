@@ -69,7 +69,7 @@ func handler(request events.APIGatewayProxyRequest) (*events.APIGatewayProxyResp
 		return formatResponse(http.StatusInternalServerError, err.Error()), err
 	}
 
-	return formatResponse(http.StatusOK, url), nil
+	return formatResponse(http.StatusOK, `{"url":`+url+`}`), nil
 }
 
 func formatResponse(statusCode int, body string) *events.APIGatewayProxyResponse {
@@ -78,7 +78,6 @@ func formatResponse(statusCode int, body string) *events.APIGatewayProxyResponse
 		Headers: map[string]string{
 			"Content-Type":                 "application/json",
 			"Access-Control-Allow-Origin":  "*",
-			"Access-Control-Allow-Headers": "X-Requested-With,Content-Type,Authorization,Auth-Token,Origin,Accept",
 			"Access-Control-Allow-Methods": "POST,OPTIONS",
 		},
 		Body: body,
