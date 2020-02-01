@@ -39,7 +39,7 @@ func handler(request events.APIGatewayProxyRequest) (*events.APIGatewayProxyResp
 	log.Println("------------------------------------------------------------------")
 
 	if request.HTTPMethod == http.MethodOptions {
-		return formatResponse(http.StatusOK, "OK"), nil
+		return formatPreflightResponse(), nil
 	}
 	if request.HTTPMethod != http.MethodPost {
 		return formatResponse(http.StatusMethodNotAllowed, "Disallowed HTTP verb"), errMethodNotAllowed
@@ -82,5 +82,17 @@ func formatResponse(statusCode int, body string) *events.APIGatewayProxyResponse
 			"Access-Control-Allow-Methods": "POST,OPTIONS",
 		},
 		Body: body,
+	}
+}
+
+func formatPreflightResponse() *events.APIGatewayProxyResponse {
+	return &events.APIGatewayProxyResponse{
+		StatusCode: http.StatusNoContent,
+		Headers: map[string]string{
+			"Content-Type":                 "application/json",
+			"Access-Control-Allow-Origin":  "*",
+			"Access-Control-Allow-Methods": "POST",
+		},
+		Body: "{}",
 	}
 }
