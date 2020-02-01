@@ -4,3 +4,8 @@
   publish = "site"
 [build.environment]
   GO_IMPORT_PATH = "github.com/shjp/shjp-storage"
+[[headers]]
+  # Define which paths this specific [[headers]] block will cover.
+  for = "/*"
+    [headers.values]
+    Access-Control-Allow-Origin = "*"
